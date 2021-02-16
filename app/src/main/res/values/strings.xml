@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Othello</string>
+    <string name="text_white_score">Score Blanc : %s</string>
+    <string name="text_black_score">Score Noire : %s</string>
+</resources>

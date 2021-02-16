@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/image_view_case_checker"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@color/new_red" />
+
+    <View
+        android:layout_width="12dp"
+        android:layout_height="60dp"
+        android:layout_toEndOf="@+id/image_view_case_checker"
+        android:layout_toRightOf="@+id/image_view_case_checker"
+        android:background="@drawable/line_separator" />
+
+</RelativeLayout>
