@@ -183,15 +183,15 @@ class PlayGamerToGamer() {
 
      private fun isEndGame(arrays: Array<Int>, position: Int, color: Int, hitColor: Int): Boolean {
         var eatCase = false
-        //if (checkHorizontalSub(arrays, position, color, hitColor)) eatCase = true
-        //if (checkHorizontalPlus(arrays, position, color, hitColor)) eatCase = true
+        if (checkHorizontalSub(arrays, position, color, hitColor)) eatCase = true
+        if (checkHorizontalPlus(arrays, position, color, hitColor)) eatCase = true
         if (checkVerticalPlus(arrays, position, color, hitColor)) eatCase = true
         if (checkVerticalSub(arrays, position, color, hitColor)) eatCase = true
         //todo Diagonal
          if (checkDiagonalLeftPlus(arrays, position, color, hitColor)) eatCase = true
-        //   if (checkDiagonalLeftSub(arrays, position, color, hitColor)) eatCase = true
-        //   if (checkDiagonalRightPlus(arrays, position, color, hitColor)) eatCase = true
-        //   if (checkDiagonalRightSub(arrays, position, color, hitColor)) eatCase = true
+         if (checkDiagonalLeftSub(arrays, position, color, hitColor)) eatCase = true
+         if (checkDiagonalRightPlus(arrays, position, color, hitColor)) eatCase = true
+         if (checkDiagonalRightSub(arrays, position, color, hitColor)) eatCase = true
         return eatCase
     }
 
@@ -477,14 +477,14 @@ class PlayGamerToGamer() {
 
     fun isPlayCase(arrays: Array<Int>, position: Int, color: Int, hitColor: Int): Boolean {
         var eatCase = false
-       // if (attackHorizontalPlus(arrays, position, color, hitColor)) eatCase = true
-       // if (attackHorizontalSub(arrays, position, color, hitColor)) eatCase = true
+        if (attackHorizontalPlus(arrays, position, color, hitColor)) eatCase = true
+        if (attackHorizontalSub(arrays, position, color, hitColor)) eatCase = true
         if (attackVerticalPlus(arrays, position, color, hitColor)) eatCase = true
         if (attackVerticalSub(arrays, position, color, hitColor)) eatCase = true
         if (attackDiagonalLeftPlus(arrays, position, color, hitColor)) eatCase = true
-        //if (attackDiagonalLeftSub(arrays, position, color, hitColor)) eatCase = true
-        //if (attackDiagonalRightPlus(arrays, position, color, hitColor)) eatCase = true
-        //if (attackDiagonalRightSub(arrays, position, color, hitColor)) eatCase = true
+        if (attackDiagonalLeftSub(arrays, position, color, hitColor)) eatCase = true
+        if (attackDiagonalRightPlus(arrays, position, color, hitColor)) eatCase = true
+        if (attackDiagonalRightSub(arrays, position, color, hitColor)) eatCase = true
         return eatCase
     }
 

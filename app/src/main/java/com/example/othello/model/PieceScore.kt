@@ -2,8 +2,8 @@ package com.example.othello.model
 
 class PieceScore (var scoreWhite:Int,var scoreBlack:Int,var possibilityWhite:Boolean,var possibilityBlack: Boolean){
     init {
-        scoreBlack = 2
-        scoreWhite = 2
+        scoreBlack = 0
+        scoreWhite = 0
         possibilityBlack = false
         possibilityWhite = false
     }
