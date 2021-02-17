@@ -1,177 +1,372 @@
-@file:Suppress("DEPRECATED_IDENTITY_EQUALS")
-
 package com.example.othello.model
 
-import android.media.AudioTrack
-import java.io.PipedOutputStream
-import java.util.*
-import kotlin.collections.HashMap
 
-class PlayIa(array: Array<Int>, black: Int, white: Int) {
-    fun score(arrays: Array<Int>, color: Int, posList: List<Int>): Int {
-        var cpt = 0
+class PlayIa(var arrays: Array<Int>,var scoreWhite:Int,var scoreBlack:Int,var possibilityWhite:Boolean,var possibilityBlack: Boolean ,var play:Boolean) {
+
+    var strategy = Array(8) { Array(8) { 0 } }
+    init {
+        scoreBlack = 0
+        scoreWhite = 0
+        possibilityBlack = false
+        possibilityWhite = false
+        play = false
+    }
+    constructor(arrays: Array<Int>) :this(arrays,2,2,false,false,false)
+    fun checkPossibilityToPlay(arrays: Array<Int>): PlayIa {
+        var chooseEat = -1
+        var playIa = PlayIa(arrays)
+        playIa.possibilityWhite = false
+        playIa.possibilityBlack = false
         for (i in arrays.indices) {
-            if (color === arrays[i])
-                cpt++
-            posList.toMutableList().add(i);
+            if (arrays[i] == 1) {
+                playIa.scoreWhite++
+            }
+            if (arrays[i] == 2) {
+                playIa.scoreBlack++
+            }
+            chooseEat = strategyGourmand(arrays,i,2,1)
+
         }
-        return cpt
+        if(chooseEat != -1){
+            checkCase(chooseEat,arrays,2)
+            playIa.play = true
+        }
+        return playIa
     }
 
-    fun isContinueToPlay(
+    private fun checkHorizontalPlus(
         arrays: Array<Int>,
-        boardToPlay: List<Int>,
-        posList: List<Int>?,
-        hitList: HashMap<String, Int>,
-        colorHit: Int,
-        caseToHit: Int,
-        reverseColor: HashMap<String, Int>
-    ): Boolean {
-        var hitPossible = false;
-        for (i in posList?.indices!!) {
-            //todo horizontal +
-            if (horizontalPlusHit(
-                    posList[i],
-                    arrays,
-                    colorHit,
-                    reverseColor,
-                    caseToHit,
-                    hitList
-                )
-            ) hitPossible = true
-            //todo horizontal -
-            if (horizontalSubTractHit(
-                    posList[i],
-                    arrays,
-                    colorHit,
-                    reverseColor,
-                    caseToHit,
-                    hitList
-                )
-            ) hitPossible = true
-            //todo vertical +
-            if (verticalPlusHit(
-                    posList[i],
-                    arrays,
-                    colorHit,
-                    reverseColor,
-                    caseToHit,
-                    hitList
-                )
-            ) hitPossible = true
-            //todo vertical -
-            if (verticalSubtractHit(
-                    posList[i],
-                    arrays,
-                    colorHit,
-                    reverseColor,
-                    caseToHit,
-                    hitList
-                )
-            ) hitPossible = true
-            //todo digonale -7
-            //todo digonale +7
-            //todo digonale -9
-            //todo digonale +9
-        }
-        if (hitPossible) {
-            reverseColor["horizontalPlusHit score"]?.let { boardToPlay.toMutableList().add(it) }
-            reverseColor["horizontalSubTractHit score"]?.let { boardToPlay.toMutableList().add(it) }
-            reverseColor["verticalPlusHit score"]?.let { boardToPlay.toMutableList().add(it) }
-            reverseColor["verticalPlusHit score"]?.let { boardToPlay.toMutableList().add(it) }
-        }
-        return hitPossible
-    }
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        if (arrays[position] == 0 && position != 7 && position < 62 && arrays[position + 1] == hitColor) {
+            var ptColor = 0
+            var i = 1
+            while (i < 8 && position + i < 64 && (position + i) % 8 != 0) {
+                if (arrays[position + i] == hitColor) {
+                    ptColor += 1
+                    strategy[0][i] = position + i
+                } else if (arrays[position + i] == color) {
 
-    private fun horizontalPlusHit(
-        position: Int, arrays: Array<Int>, hitColor: Int,
-        eraser: HashMap<String, Int>, caseToHit: Int,
-        hitListHorizontal: HashMap<String, Int>,
-    ): Boolean {
-        for (i in 1 until arrays.size) {
-            var cpt = 0;
-            if ((position + i) < arrays.size && ((position + i) % 8) < 8 && arrays[position + i] === hitColor) {
-                cpt += 1
-                eraser["horizontalPlusHit $i"] = position + i
-                val nextPosition: Int = position + 2 * i;
-                if (nextPosition < arrays.size && (nextPosition % 8) < 8 && arrays[position + 2 * i] === 0) {
-                    hitListHorizontal["horizontalPlusHit position"] = nextPosition
-                    arrays[position + 2 * i] = caseToHit
-                    eraser["horizontalPlusHit score"] = cpt;
-                    return true;
+                    return ptColor
                 }
+                i++
             }
         }
-        eraser.toMutableMap().clear()
-        return false;
+        return 0
     }
 
-    private fun horizontalSubTractHit(
-        position: Int, arrays: Array<Int>, hitColor: Int,
-        eraser: HashMap<String, Int>, caseToHit: Int,
-        hitListHorizontal: HashMap<String, Int>,
-    ): Boolean {
-        for (i in 1 until arrays.size) {
-            var cpt = 0;
-            if ((position - i) > 0 && ((position - i) % 8) < 8 && arrays[position - i] === hitColor) {
-                cpt += 1
-                eraser["horizontalSubTractHit $i"] = position - i
-                val nextPosition: Int = position - 2 * i;
-                if (nextPosition > 0 && (nextPosition % 8) < 8 && arrays[position - 2 * i] === 0) {
-                    hitListHorizontal["horizontalSubTractHit position"] = nextPosition
-                    arrays[position - 2 * i] = caseToHit
-                    return true;
-                }
+    private fun checkHorizontalSub(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        if (arrays[position] == 0 && position - 1 >= 0 && arrays[position - 1] == hitColor) {
+            var ptColor = 0
+            var i = 1
+            while (i < 8 && position - i >= 0 && (position - i) % 8 != 7) {
+                if (arrays[position - i] == hitColor) {
+                    ptColor += 1
+                    strategy[1][i] = position - i
+                } else if (arrays[position - i] == color) return ptColor
+                i++
             }
         }
-        eraser.toMutableMap().clear()
-        return false;
+        return 0
     }
 
-    private fun verticalSubtractHit(
-        position: Int, arrays: Array<Int>, hitColor: Int,
-        eraser: HashMap<String, Int>, caseToHit: Int,
-        hitListHorizontal: HashMap<String, Int>,
-    ): Boolean {
-        for (i in 1 until arrays.size step 8) {
-            var cpt = 0;
-            if ((position - i) > 0 && ((position - i) % 8) < 8 && arrays[position - i] === hitColor) {
-                cpt += 1
-                eraser["verticalSubtractHit $i"] = position - i
-                val nextPosition: Int = position - 2 * i;
-                if (nextPosition > 0 && (nextPosition % 8) < 8 && arrays[position - 2 * i] === 0) {
-                    hitListHorizontal["verticalSubtractHit position"] = nextPosition
-                    arrays[position - 2 * i] = caseToHit
-                    eraser["verticalSubtractHit score"] = cpt;
-                    return true;
+
+    private fun checkVerticalSub(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        if (arrays[position] == 0 && position - 8 >= 0 && arrays[position - 8] == hitColor) {
+            var ptColor = 0
+            var i = 1
+            while (i < 8 && position - i * 8 >= 0) {
+                if (arrays[position - i * 8] == hitColor) {
+                    ptColor += 1
+                    strategy[2][i] = position - i * 8
+                } else if (arrays[position - i * 8] == color) {
+                    return ptColor
                 }
+                i++
             }
         }
-        eraser.toMutableMap().clear()
-        return false;
+        return 0
     }
 
-    private fun verticalPlusHit(
-        position: Int, arrays: Array<Int>, hitColor: Int,
-        eraser: HashMap<String, Int>, caseToHit: Int,
-        hitListHorizontal: HashMap<String, Int>
-    ): Boolean {
-        for (i in 1 until arrays.size step 8) {
-            var cpt = 0;
-            if ((position + i) < arrays.size && ((position + i) % 8) < 8 && arrays[position - i] === hitColor) {
-                cpt += 1
-                eraser["verticalPlusHit $i"] = position + i
-                var nextPosition: Int = position + 2 * i;
-                if ((nextPosition) < arrays.size && (nextPosition % 8) < 8 && arrays[position + 2 * i] === 0) {
-                    hitListHorizontal["verticalPlusHit position"] = nextPosition
-                    arrays[position + 2 * i] = caseToHit
-                    eraser["verticalPlusHit score"] = cpt;
-                    return true;
-                }
+    private fun checkVerticalPlus(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        if (arrays[position] == 0 && position + 8 < 64 && arrays[position + 8] == hitColor) {
+            var ptColor = 0
+            var i = 1
+            while (i < 8 && position + i * 8 < 64) {
+                if (arrays[position + i * 8] == hitColor) {
+                    ptColor += 1
+                    strategy[3][i] = position + i * 8
+                } else if (arrays[position + i * 8] == color) return ptColor
+                i++
             }
         }
-        eraser.toMutableMap().clear()
-        return false;
+        return 0
+    }
+
+    private fun checkDiagonalLeftPlus(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        if (arrays[position] == 0 && position % 8 != 0 && position + 7 < 64 && arrays[position + 7] == hitColor) {
+            var ptColor = 0
+            var i = 1
+            while (i < 8 && position + i * 7 < 64 && (position + i * 7) % 8 != 7) {
+                if (arrays[position + i * 7] == hitColor) {
+                    ptColor += 1
+                    strategy[4][i] = position + i * 7
+                } else if (arrays[position + i * 7] == color) return ptColor
+                i++
+            }
+        }
+        return 0
+    }
+
+    private fun checkDiagonalLeftSub(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        if (arrays[position] == 0 && position % 8 != 0 && position - 9 > 0 && arrays[position - 9] == hitColor) {
+            var ptColor = 0
+            var i = 1
+            while (i < 8 && position - i * 9 >= 0 && (position - i * 9) % 8 != 7) {
+                if (arrays[position - i * 9] == hitColor) {
+                    ptColor += 1
+                    strategy[5][i] = position - i * 9
+                } else if (arrays[position - i * 9] == color) return ptColor
+                i++
+            }
+        }
+        return 0
+    }
+
+    private fun checkDiagonalRightSub(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        if (arrays[position] == 0 && position % 8 != 7 && position - 7 > 0 && arrays[position - 7] == hitColor) {
+            var ptColor = 0
+            var i = 1
+            while (i < 8 && position - i * 7 >= 0 && (position - i * 7) % 8 != 0) {
+                if (arrays[position - i * 7] == hitColor) {
+                    ptColor += 1
+                    strategy[6][i] = position - i * 7
+                } else if (arrays[position - i * 7] == color) return ptColor
+                i++
+            }
+        }
+        return 0
+    }
+
+    private fun checkDiagonalRightPlus(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        if (arrays[position] == 0 && position % 8 != 7 && position + 9 < 64 && arrays[position + 9] == hitColor) {
+            var ptColor = 0
+            var i = 1
+            while (i < 8 && position + i * 9 < 64 && (position + i * 9) % 8 != 0) {
+                if (arrays[position + i * 9] == hitColor) {
+                    ptColor += 1
+                    strategy[7][i] = position + i * 9
+                } else if (arrays[position + i * 9] == color) return ptColor
+                i++
+            }
+        }
+        return 0
+    }
+
+    private fun eatCaseListDiagonalLeftPlus(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        eatCasePiece: Int
+    ) {
+        if (eatCasePiece != 0) {
+            for (i in 0..eatCasePiece) {
+                arrays[(position + i * 7)] = color
+            }
+        }
+    }
+
+    private fun eatCaseListDiagonalLeftSub(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        eatCasePiece: Int
+    ) {
+        if (eatCasePiece != 0) {
+            for (i in 0..eatCasePiece) {
+                arrays[(position - i * 9)] = color
+            }
+        }
+    }
+
+    private fun eatCaseListDiagonalRightSub(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        eatCasePiece: Int
+    ) {
+        if (eatCasePiece != 0) {
+            for (i in 0..eatCasePiece) {
+                arrays[(position - i * 7)] = color
+            }
+        }
+    }
+
+    private fun eatCaseListDiagonalRightPlus(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        eatCasePiece: Int
+    ) {
+        if (eatCasePiece != 0) {
+            for (i in 0..eatCasePiece) {
+                arrays[(position + i * 9)] = color
+            }
+        }
+    }
+
+    private fun eatCaseListVerticalPlus(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        eatCasePiece: Int
+    ) {
+        if (eatCasePiece > 0) {
+            for (i in 0..eatCasePiece) {
+                arrays[position + i * 8] = color
+            }
+        }
+    }
+
+    private fun eatCaseListVerticalSub(
+        arrays: Array<Int>, position: Int,
+        color: Int, eatCasePiece: Int
+    ) {
+        if (eatCasePiece > 0) {
+            for (i in 0..eatCasePiece) {
+                arrays[position - i * 8] = color
+            }
+        }
+    }
+
+    private fun eatCaseListHorizontalSub(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        eatCasePiece: Int
+    ) {
+        if (eatCasePiece > 0) {
+            for (i in 0..eatCasePiece) {
+                arrays[position - i] = color
+            }
+        }
+    }
+
+    private fun eatCaseListHorizontalPlus(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        eatCasePiece: Int
+    ) {
+        if (eatCasePiece > 0) {
+            for (i in 0..eatCasePiece) {
+                arrays[position + i] = color
+            }
+        }
+    }
+
+    private fun checkCase(gourmand: Int, arrays: Array<Int>, color: Int) {
+        when (gourmand) {
+            0 -> eatCaseListHorizontalPlus(arrays, strategy[0][0], color, strategy[0].size)
+            1 -> eatCaseListHorizontalSub(arrays, strategy[1][0], color, strategy[1].size)
+            2 -> eatCaseListVerticalPlus(arrays, strategy[2][0], color, strategy[2].size)
+            3 -> eatCaseListVerticalSub(arrays, strategy[3][0], color, strategy[3].size)
+            4 -> eatCaseListDiagonalLeftPlus(arrays, strategy[4][0], color, strategy[4].size)
+            5 -> eatCaseListDiagonalLeftSub(arrays, strategy[5][0], color, strategy[5].size)
+            6 -> eatCaseListDiagonalRightPlus(arrays, strategy[6][0], color, strategy[6].size)
+            7 -> eatCaseListDiagonalRightSub(arrays, strategy[6][0], color, strategy[6].size)
+        }
+    }
+
+
+    fun strategyGourmand(
+        arrays: Array<Int>,
+        position: Int,
+        color: Int,
+        hitColor: Int
+    ): Int {
+        var eatCase = -1
+        var strategyGourmand: Int? = -1
+        var scoreStrategy = -1
+        strategyGourmand = checkHorizontalSub(arrays, position, color, hitColor)
+        if (strategyGourmand >= eatCase) {
+            eatCase = strategyGourmand
+            scoreStrategy = 0
+        }
+        strategyGourmand = checkHorizontalPlus(arrays, position, color, hitColor)
+        if (strategyGourmand >= eatCase) {
+            eatCase = strategyGourmand
+            scoreStrategy = 1
+        }
+        strategyGourmand = checkVerticalPlus(arrays, position, color, hitColor)
+        if (strategyGourmand >= eatCase) {
+            eatCase = strategyGourmand
+            scoreStrategy = 2
+        }
+        strategyGourmand = checkVerticalSub(arrays, position, color, hitColor)
+        if (strategyGourmand >= eatCase) {
+            eatCase = strategyGourmand
+            scoreStrategy = 3
+        }
+        //todo Diagonal
+        strategyGourmand = checkDiagonalLeftPlus(arrays, position, color, hitColor)
+        if (strategyGourmand >= eatCase) {
+            eatCase = strategyGourmand
+            scoreStrategy = 4
+        }
+        strategyGourmand = checkDiagonalLeftSub(arrays, position, color, hitColor)
+        if (strategyGourmand >= eatCase) {
+            eatCase = strategyGourmand
+            scoreStrategy = 5
+        }
+        strategyGourmand = checkDiagonalRightPlus(arrays, position, color, hitColor)
+        if (strategyGourmand >= eatCase) {
+            eatCase = strategyGourmand
+            scoreStrategy = 6
+        }
+        strategyGourmand = checkDiagonalRightSub(arrays, position, color, hitColor)
+        if (strategyGourmand > eatCase) {
+            eatCase = strategyGourmand
+            scoreStrategy = 7
+        }
+        return scoreStrategy
     }
 
 }
