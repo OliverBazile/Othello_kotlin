@@ -1,7 +1,7 @@
 package com.example.othello.model
 
 
-class PlayIa(var arrays: Array<Int>,var scoreWhite:Int,var scoreBlack:Int,var possibilityWhite:Boolean,var possibilityBlack: Boolean ,var play:Boolean) {
+class PlayIaGourmand(var arrays: Array<Int>, var scoreWhite:Int, var scoreBlack:Int, var possibilityWhite:Boolean, var possibilityBlack: Boolean, var play:Boolean) {
 
     var strategy = Array(8) { Array(8) { 0 } }
     init {
@@ -12,9 +12,9 @@ class PlayIa(var arrays: Array<Int>,var scoreWhite:Int,var scoreBlack:Int,var po
         play = false
     }
     constructor(arrays: Array<Int>) :this(arrays,2,2,false,false,false)
-    fun checkPossibilityToPlay(arrays: Array<Int>): PlayIa {
+    fun checkPossibilityToPlay(arrays: Array<Int>): PlayIaGourmand {
         var chooseEat = -1
-        var playIa = PlayIa(arrays)
+        var playIa = PlayIaGourmand(arrays)
         playIa.possibilityWhite = false
         playIa.possibilityBlack = false
         for (i in arrays.indices) {
