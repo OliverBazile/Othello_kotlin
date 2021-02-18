@@ -34,9 +34,10 @@ class GamerVsGamerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gamer_vs_gamer)
+        initBoard();
         text_view_score_white_gamer_vs_gamer.text = String.format("Score White %d", scoreWhite)
         text_view_score_black_gamer_vs_gamer.text = String.format("Score Black %d", scoreWhite)
-        var vertical = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        val vertical = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         ContextCompat.getDrawable(this, R.drawable.line_separator)?.let {
             vertical.setDrawable(it)
         }
@@ -101,7 +102,6 @@ class GamerVsGamerActivity : AppCompatActivity() {
     }
     override fun onStart() {
         super.onStart()
-        initBoard();
     }
 
 }
