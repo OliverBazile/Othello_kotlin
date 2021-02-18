@@ -15,9 +15,10 @@ class MenuActivity : AppCompatActivity() {
         setContentView(R.layout.activity_menu)
 
         text_view_gamer_vs_gamer_menu.setOnClickListener {
-            text_view_title_menu.setTextColor(it.context.getColor(R.color.pale_yellow_new))
-            text_view_title_menu.setBackgroundResource(R.color.pale_yellow_new)
-            text_view_gamer_vs_gamer_menu.setBackgroundResource(R.color.new_black)
+            text_view_title_menu.setTextColor(it.context.getColor(R.color.new_white))
+            text_view_title_menu.setBackgroundResource(R.color.new_black)
+            text_view_gamer_vs_gamer_menu.setTextColor(it.context.getColor(R.color.new_black))
+            text_view_gamer_vs_gamer_menu.setBackgroundResource(R.color.new_white)
             text_view_gamer_vs_ia_menu.setTextColor(it.context.getColor(R.color.new_white))
             text_view_gamer_vs_ia_menu.setBackgroundResource(R.color.new_black)
             relative_layout_background_menu.setBackgroundResource(R.color.new_black)
@@ -26,9 +27,10 @@ class MenuActivity : AppCompatActivity() {
         }
 
         text_view_gamer_vs_ia_menu.setOnClickListener {
-            text_view_title_menu.setTextColor(it.context.getColor(R.color.pale_yellow_new))
-            text_view_title_menu.setBackgroundResource(R.color.pale_yellow_new)
-            text_view_gamer_vs_ia_menu.setBackgroundResource(R.color.new_white)
+            text_view_title_menu.setTextColor(it.context.getColor(R.color.new_black))
+            text_view_title_menu.setBackgroundResource(R.color.new_white)
+            text_view_gamer_vs_ia_menu.setTextColor(it.context.getColor(R.color.new_white))
+            text_view_gamer_vs_ia_menu.setBackgroundResource(R.color.new_black)
             text_view_gamer_vs_gamer_menu.setTextColor(it.context.getColor(R.color.new_black))
             text_view_gamer_vs_gamer_menu.setBackgroundResource(R.color.new_white)
             relative_layout_background_menu.setBackgroundResource(R.color.new_white)
