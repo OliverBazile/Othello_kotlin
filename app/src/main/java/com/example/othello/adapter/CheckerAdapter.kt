@@ -9,16 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.othello.R
-import com.example.othello.activity.MainActivity
-import com.example.othello.model.PieceScore
+import com.example.othello.activity.GamerVsGamerActivity
 import com.example.othello.model.PlayGamerToGamer
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.recycler_view_checkerboard_activity_main.view.*
 
 class CheckerAdapter(
     private val context: Context,
     var checkerCase: Array<Int>,
-    var activity: MainActivity,
+    var activity: GamerVsGamerActivity,
     var isMyTurn: Boolean,
     var endGame: Boolean
 ) : RecyclerView.Adapter<CheckerAdapter.CheckerHolder>() {

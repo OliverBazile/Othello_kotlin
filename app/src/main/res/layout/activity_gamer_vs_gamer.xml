@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pale_yellow_new"
-    tools:context=".activity.MainActivity">
+    tools:context=".activity.GamerVsGamerActivity">
 
 
 
@@ -26,29 +26,29 @@
         android:background="@drawable/line_separator" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_checker_board_main"
+        android:id="@+id/recycler_view_checker_board_gamer_vs_gamer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_boarder_top"
         android:background="@color/pale_yellow_new" />
 
     <com.example.othello.widget.FascinateText
-        android:id="@+id/text_view_score_white_main"
+        android:id="@+id/text_view_score_white_gamer_vs_gamer"
         style="@style/text_view_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recycler_view_checker_board_main"
+        android:layout_below="@+id/recycler_view_checker_board_gamer_vs_gamer"
         android:layout_margin="30dp"
         android:text="@string/text_white_score"
         android:textSize="30sp" />
 
     <com.example.othello.widget.FascinateText
-        android:id="@+id/text_view_score_black_main"
+        android:id="@+id/text_view_score_black_gamer_vs_gamer"
         style="@style/text_view_black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/recycler_view_checker_board_main"
-        android:layout_alignBaseline="@+id/text_view_score_white_main"
+        android:layout_below="@+id/recycler_view_checker_board_gamer_vs_gamer"
+        android:layout_alignBaseline="@+id/text_view_score_white_gamer_vs_gamer"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="30dp"
@@ -57,7 +57,7 @@
         android:textSize="30sp" />
 
     <com.example.othello.widget.FascinateText
-        android:id="@+id/text_view_attack_main"
+        android:id="@+id/text_view_attack_gamer_vs_gamer"
         style="@style/text_view_black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

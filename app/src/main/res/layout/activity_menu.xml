@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pale_yellow_new"
+    tools:context=".activity.MenuActivity"
+    android:id="@+id/relative_layout_background_menu">
+
+    <com.example.othello.widget.FascinateText
+        android:id="@+id/text_view_title_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:background="@color/pale_yellow_new"
+        android:text="@string/app_name"
+        style="@style/text_view_black"
+        android:textSize="30sp" />
+
+    <com.example.othello.widget.FascinateText
+        android:id="@+id/text_view_gamer_vs_gamer_menu"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Joueur vs Joueur"
+        android:background="@color/pale_yellow_new"
+        style="@style/text_view_black"
+        android:textSize="28sp"/>
+
+    <com.example.othello.widget.FascinateText
+        android:id="@+id/text_view_gamer_vs_ia_menu"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Joueur vs Ia"
+        android:layout_above="@+id/text_view_gamer_vs_gamer_menu"
+        android:layout_marginBottom="14dp"
+        style="@style/text_view_black"
+        android:background="@color/pale_yellow_new"
+        android:textSize="28sp"/>
+
+</RelativeLayout>
