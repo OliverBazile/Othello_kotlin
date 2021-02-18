@@ -28,18 +28,27 @@ class CheckerAdapter(
 
     @SuppressLint("NonConstantResourceId")
     class CheckerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(value: Int) {
+        fun bindView(value: Int,arrays: Array<Int>, position: Int) {
             when (value) {
                 2 -> {
-                   // itemView.image_view_case_checker.animation = AnimationUtils.loadAnimation(itemView.context,
-                   //     R.anim.rotate)
                     itemView.image_view_case_checker.setImageResource(R.drawable.ic_black_circle)
                     itemView.image_view_case_checker.isEnabled = false
-
                 }
                 1 -> {
-                   // itemView.image_view_case_checker.animation = AnimationUtils.loadAnimation(itemView.context,
-                    //    R.anim.rotate)
+                    itemView.image_view_case_checker.setImageResource(R.drawable.ic_white_circle)
+                    itemView.image_view_case_checker.isEnabled = false
+                }
+                8 -> {
+                    itemView.image_view_case_checker.animation = AnimationUtils.loadAnimation(itemView.context,
+                        R.anim.rotate)
+                    arrays[position] = 2
+                    itemView.image_view_case_checker.setImageResource(R.drawable.ic_black_circle)
+                    itemView.image_view_case_checker.isEnabled = false
+                }
+                7 -> {
+                    itemView.image_view_case_checker.animation = AnimationUtils.loadAnimation(itemView.context,
+                        R.anim.rotate)
+                    arrays[position] = 1
                     itemView.image_view_case_checker.setImageResource(R.drawable.ic_white_circle)
                     itemView.image_view_case_checker.isEnabled = false
                 }
@@ -61,23 +70,22 @@ class CheckerAdapter(
 
         holder.itemView.setOnClickListener {
             if (isMyTurn && !endGame && this.checkerCase[position] == 0
-                && ruler!!.isPlayCase(checkerCase, position, 1, 2)) {
+                && ruler!!.isPlayCase(checkerCase, position, 1, 2,7)) {
                 this.checkerCase[position] = 1
-                holder.bindView(1)
+                holder.bindView(1,this.checkerCase,position)
                 Log.w("onBindViewHolder piece", " " + position)
                 activity.playScore(isMyTurn)
                 this.notifyDataSetChanged()
             } else if (!isMyTurn && !endGame && this.checkerCase[position] == 0
-                && ruler!!.isPlayCase(checkerCase, position, 2, 1)) {
+                && ruler!!.isPlayCase(checkerCase, position, 2, 1,8)) {
                 this.checkerCase[position] = 2
-                holder.bindView(2)
+                holder.bindView(2,this.checkerCase,position)
                 activity.playScore(isMyTurn)
                 this.notifyDataSetChanged()
             }
         }
 
-
-        holder.bindView(piece)
+        holder.bindView(piece,this.checkerCase,position)
     }
 
     override fun getItemCount(): Int = this.checkerCase.size

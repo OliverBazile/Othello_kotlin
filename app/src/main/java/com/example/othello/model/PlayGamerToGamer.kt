@@ -1,5 +1,7 @@
 package com.example.othello.model
 
+import android.view.animation.Animation
+
 class PlayGamerToGamer() {
     private var eatCasePiece = 0
 
@@ -199,7 +201,8 @@ class PlayGamerToGamer() {
         arrays: Array<Int>,
         position: Int,
         color: Int,
-        hitColor: Int
+        hitColor: Int,
+        animation: Int
     ): Boolean {
         if (position != 7 && position < 62 && arrays[(position + 1)] == hitColor) {
             var ptColor = 0
@@ -211,7 +214,7 @@ class PlayGamerToGamer() {
                     }
                     arrays[(position + i)] == color -> {
                         eatCasePiece = ptColor
-                        eatCaseListHorizontalPlus(arrays, position, color)
+                        eatCaseListHorizontalPlus(arrays, position, color,animation)
                         return true
                     }
                     else -> return false
@@ -226,7 +229,8 @@ class PlayGamerToGamer() {
         arrays: Array<Int>,
         position: Int,
         color: Int,
-        hitColor: Int
+        hitColor: Int,
+        animation: Int
     ): Boolean {
         if (position > 1 && arrays[(position - 1)] == hitColor) {
             var ptColor = 0
@@ -238,7 +242,7 @@ class PlayGamerToGamer() {
                     }
                     arrays[(position - i)] == color -> {
                         eatCasePiece = ptColor
-                        eatCaseListHorizontalSub(arrays, position, color)
+                        eatCaseListHorizontalSub(arrays, position, color,animation)
                         return true
                     }
                     else -> return false
@@ -253,7 +257,8 @@ class PlayGamerToGamer() {
         arrays: Array<Int>,
         position: Int,
         color: Int,
-        hitColor: Int
+        hitColor: Int,
+        animation: Int
     ): Boolean {
         if (position - 8 >= 0 && arrays[(position - 8)] == hitColor) {
             var ptColor = 0
@@ -265,7 +270,7 @@ class PlayGamerToGamer() {
                     }
                     arrays[(position - i * 8)] == color -> {
                         eatCasePiece = ptColor
-                        eatCaseListVerticalSub(arrays, position, color)
+                        eatCaseListVerticalSub(arrays, position, color,animation)
                         return true
                     }
                     else -> return false
@@ -280,7 +285,8 @@ class PlayGamerToGamer() {
         arrays: Array<Int>,
         position: Int,
         color: Int,
-        hitColor: Int
+        hitColor: Int,
+        animation: Int
     ): Boolean {
         if (position + 8 < 64 && arrays[(position + 8)] == hitColor) {
             var ptColor = 0
@@ -292,7 +298,7 @@ class PlayGamerToGamer() {
                     }
                     arrays[(position + i * 8)] == color -> {
                         eatCasePiece = ptColor
-                        eatCaseListVerticalPlus(arrays, position, color)
+                        eatCaseListVerticalPlus(arrays, position, color,animation)
                         return true
                     }
                     else -> return false
@@ -307,7 +313,8 @@ class PlayGamerToGamer() {
         arrays: Array<Int>,
         position: Int,
         color: Int,
-        hitColor: Int
+        hitColor: Int,
+        animation: Int
     ): Boolean {
         if (position % 8 != 0 && position + 7 < 64 && arrays[(position + 7)] == hitColor) {
             var ptColor = 0
@@ -319,7 +326,7 @@ class PlayGamerToGamer() {
                     }
                     arrays[position + i * 7] == color -> {
                         eatCasePiece = ptColor
-                        eatCaseListDiagonalLeftPlus(arrays, position, color)
+                        eatCaseListDiagonalLeftPlus(arrays, position, color,animation)
                         return true
                     }
                     else -> return false
@@ -334,7 +341,8 @@ class PlayGamerToGamer() {
         arrays: Array<Int>,
         position: Int,
         color: Int,
-        hitColor: Int
+        hitColor: Int,
+        animation: Int
     ): Boolean {
         if (position % 8 != 0 && position - 9 > 0 && arrays[position - 9] == hitColor) {
             var ptColor = 0
@@ -346,7 +354,7 @@ class PlayGamerToGamer() {
                     }
                     arrays[position - i * 9] == color -> {
                         eatCasePiece = ptColor
-                        eatCaseListDiagonalLeftSub(arrays, position, color)
+                        eatCaseListDiagonalLeftSub(arrays, position, color,animation)
                         return true
                     }
                     else -> return false
@@ -361,7 +369,8 @@ class PlayGamerToGamer() {
         arrays: Array<Int>,
         position: Int,
         color: Int,
-        hitColor: Int
+        hitColor: Int,
+        animation: Int
     ): Boolean {
         if (position % 8 != 7 && position - 7 > 0 && arrays[(position - 7)] == hitColor) {
             var ptColor = 0
@@ -373,7 +382,7 @@ class PlayGamerToGamer() {
                     }
                     arrays[(position - i * 7)] == color -> {
                         eatCasePiece = ptColor
-                        eatCaseListDiagonalRightSub(arrays, position, color)
+                        eatCaseListDiagonalRightSub(arrays, position, color,animation)
                         return true
                     }
                     else -> return false
@@ -388,7 +397,8 @@ class PlayGamerToGamer() {
         arrays: Array<Int>,
         position: Int,
         color: Int,
-        hitColor: Int
+        hitColor: Int,
+        animation: Int
     ): Boolean {
         if (position % 8 != 7 && position + 9 < 64 && arrays[(position + 9)] == hitColor) {
             var ptColor = 0
@@ -400,7 +410,7 @@ class PlayGamerToGamer() {
                     }
                     arrays[position + i * 9] == color -> {
                         eatCasePiece = ptColor
-                        eatCaseListDiagonalRightPlus(arrays, position, color)
+                        eatCaseListDiagonalRightPlus(arrays, position, color,animation)
                         return true
                     }
                     else -> return false
@@ -411,80 +421,81 @@ class PlayGamerToGamer() {
         return false
     }
 
-    private fun eatCaseListDiagonalLeftPlus(arrays: Array<Int>, position: Int, color: Int) {
+    private fun eatCaseListDiagonalLeftPlus(arrays: Array<Int>, position: Int, color: Int, animation: Int) {
         if (eatCasePiece != 0) {
             for (i in 0..eatCasePiece) {
-                arrays[(position + i * 7)] = color
+                arrays[(position + i * 7)] = animation
             }
         }
     }
 
-    private fun eatCaseListDiagonalLeftSub(arrays: Array<Int>, position: Int, color: Int) {
+    private fun eatCaseListDiagonalLeftSub(arrays: Array<Int>, position: Int, color: Int, animation: Int) {
         if (eatCasePiece != 0) {
             for (i in 0..eatCasePiece) {
-                arrays[(position - i * 9)] = color
+                arrays[(position - i * 9)] = animation
             }
         }
     }
 
-    private fun eatCaseListDiagonalRightSub(arrays: Array<Int>, position: Int, color: Int) {
+    private fun eatCaseListDiagonalRightSub(arrays: Array<Int>, position: Int,color: Int, animation: Int) {
         if (eatCasePiece != 0) {
             for (i in 0..eatCasePiece) {
-                arrays[(position - i * 7)] = color
+                arrays[(position - i * 7)] = animation
             }
         }
     }
 
-    private fun eatCaseListDiagonalRightPlus(arrays: Array<Int>, position: Int, color: Int) {
+    private fun eatCaseListDiagonalRightPlus(arrays: Array<Int>, position: Int,color: Int, animation: Int) {
         if (eatCasePiece != 0) {
             for (i in 0..eatCasePiece) {
-                arrays[(position + i * 9)] = color
+                arrays[(position + i * 9)] = animation
             }
         }
     }
 
-    private fun eatCaseListVerticalPlus(arrays: Array<Int>, position: Int, color: Int) {
+    private fun eatCaseListVerticalPlus(arrays: Array<Int>, position: Int, color: Int, animation: Int) {
         if (eatCasePiece > 0) {
             for (i in 0..eatCasePiece) {
-                arrays[position + i * 8] = color
+                arrays[position + i * 8] = animation
             }
         }
     }
 
-    private fun eatCaseListVerticalSub(arrays: Array<Int>, position: Int, color: Int) {
+    private fun eatCaseListVerticalSub(arrays: Array<Int>, position: Int, color: Int, animation: Int) {
         if (eatCasePiece > 0) {
             for (i in 0..eatCasePiece) {
-                arrays[position - i * 8] = color
+                arrays[position - i * 8] = animation
             }
         }
     }
 
-    private fun eatCaseListHorizontalSub(arrays: Array<Int>, position: Int, color: Int) {
+    private fun eatCaseListHorizontalSub(arrays: Array<Int>, position: Int, color: Int, animation: Int) {
         if (eatCasePiece > 0) {
             for (i in 0..eatCasePiece) {
-                arrays[position - i] = color
+                arrays[position - i] = animation
             }
         }
     }
 
-    private fun eatCaseListHorizontalPlus(arrays: Array<Int>, position: Int, color: Int) {
+    private fun eatCaseListHorizontalPlus(arrays: Array<Int>, position: Int, color: Int, animation: Int) {
         if (eatCasePiece > 0) {
             for (i in 0..eatCasePiece) {
-                arrays[position + i] = color
+                arrays[position + i] = animation
             }
         }
     }
 
-    fun isPlayCase(arrays: Array<Int>, position: Int, color: Int, hitColor: Int): Boolean {
+    fun isPlayCase(arrays: Array<Int>, position: Int, color: Int, hitColor: Int,
+                   animation: Int): Boolean {
         var eatCase = false
-        if (attackHorizontalPlus(arrays, position, color, hitColor)) eatCase = true
-        if (attackHorizontalSub(arrays, position, color, hitColor)) eatCase = true
-        if (attackVerticalPlus(arrays, position, color, hitColor)) eatCase = true
-        if (attackVerticalSub(arrays, position, color, hitColor)) eatCase = true
-        if (attackDiagonalLeftPlus(arrays, position, color, hitColor)) eatCase = true
-        if (attackDiagonalLeftSub(arrays, position, color, hitColor)) eatCase = true
-        if (attackDiagonalRightPlus(arrays, position, color, hitColor)) eatCase = true
-        if (attackDiagonalRightSub(arrays, position, color, hitColor)) eatCase = true
+        if (attackHorizontalPlus(arrays, position, color, hitColor,animation)) eatCase = true
+        if (attackHorizontalSub(arrays, position, color, hitColor,animation)) eatCase = true
+        if (attackVerticalPlus(arrays, position, color, hitColor,animation)) eatCase = true
+        if (attackVerticalSub(arrays, position, color, hitColor,animation)) eatCase = true
+        if (attackDiagonalLeftPlus(arrays, position, color, hitColor,animation)) eatCase = true
+        if (attackDiagonalLeftSub(arrays, position, color, hitColor,animation)) eatCase = true
+        if (attackDiagonalRightPlus(arrays, position, color, hitColor,animation)) eatCase = true
+        if (attackDiagonalRightSub(arrays, position, color, hitColor,animation)) eatCase = true
         return eatCase
     }
 
