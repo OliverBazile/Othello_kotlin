@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.example.othello.R
 import com.example.othello.activity.GamerVsGamerActivity
@@ -30,10 +31,15 @@ class CheckerAdapter(
         fun bindView(value: Int) {
             when (value) {
                 2 -> {
+                   // itemView.image_view_case_checker.animation = AnimationUtils.loadAnimation(itemView.context,
+                   //     R.anim.rotate)
                     itemView.image_view_case_checker.setImageResource(R.drawable.ic_black_circle)
                     itemView.image_view_case_checker.isEnabled = false
+
                 }
                 1 -> {
+                   // itemView.image_view_case_checker.animation = AnimationUtils.loadAnimation(itemView.context,
+                    //    R.anim.rotate)
                     itemView.image_view_case_checker.setImageResource(R.drawable.ic_white_circle)
                     itemView.image_view_case_checker.isEnabled = false
                 }
