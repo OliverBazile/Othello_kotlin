@@ -17,8 +17,8 @@ import kotlinx.android.synthetic.main.activity_gamer_vs_gamer.*
 @SuppressLint("NonConstantResourceId")
 class GamerVsGamerActivity : AppCompatActivity() {
 
-    private var scoreWhite = 2;
-    private var scoreBlack = 2;
+    private var scoreWhite = 2
+    private var scoreBlack = 2
     private var checkerAdapter: CheckerAdapter? = null
     private var checkerBoard = Array(64) { 0 }
 
@@ -34,9 +34,9 @@ class GamerVsGamerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_gamer_vs_gamer)
-        initBoard();
+        initBoard()
         text_view_score_white_gamer_vs_gamer.text = String.format("Score White %d", scoreWhite)
-        text_view_score_black_gamer_vs_gamer.text = String.format("Score Black %d", scoreWhite)
+        text_view_score_black_gamer_vs_gamer.text = String.format("Score Black %d", scoreBlack)
         val vertical = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         ContextCompat.getDrawable(this, R.drawable.line_separator)?.let {
             vertical.setDrawable(it)
@@ -53,7 +53,7 @@ class GamerVsGamerActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     fun playScore(isPlay: Boolean) {
-        val playGameToGamer = PlayGamerToGamer();
+        val playGameToGamer = PlayGamerToGamer()
         val pieceScore: PieceScore = playGameToGamer.isOverGamer(this.checkerBoard)
         var isGameOver = false
         text_view_score_white_gamer_vs_gamer.text = String.format("Score White %d", pieceScore.scoreWhite)
@@ -100,8 +100,4 @@ class GamerVsGamerActivity : AppCompatActivity() {
             }
         }
     }
-    override fun onStart() {
-        super.onStart()
-    }
-
 }
