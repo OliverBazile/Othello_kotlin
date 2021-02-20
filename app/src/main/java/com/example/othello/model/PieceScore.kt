@@ -7,6 +7,6 @@ class PieceScore (var scoreWhite:Int,var scoreBlack:Int,var possibilityWhite:Boo
         possibilityBlack = false
         possibilityWhite = false
     }
-    constructor() : this(2, 2,  false, false)
+    constructor() : this(0, 0,  false, false)
 
 }
