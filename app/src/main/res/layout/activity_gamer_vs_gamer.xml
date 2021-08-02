@@ -30,7 +30,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/view_boarder_top"
-        android:background="@color/pale_yellow_new" />
+        android:background="@color/pale_yellow_new"
+        tools:listitem="@layout/recycler_view_checkerboard_activity_main"/>
 
     <com.example.othello.widget.FascinateText
         android:id="@+id/text_view_score_white_gamer_vs_gamer"
@@ -38,9 +39,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/recycler_view_checker_board_gamer_vs_gamer"
-        android:layout_margin="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+
+        android:layout_marginBottom="15dp"
         android:text="@string/text_white_score"
-        android:textSize="30sp" />
+        android:textSize="18sp" />
 
     <com.example.othello.widget.FascinateText
         android:id="@+id/text_view_score_black_gamer_vs_gamer"
@@ -51,10 +57,10 @@
         android:layout_alignBaseline="@+id/text_view_score_white_gamer_vs_gamer"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginRight="30dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
         android:text="@string/text_black_score"
-        android:textSize="30sp" />
+        android:textSize="18sp" />
 
     <com.example.othello.widget.FascinateText
         android:id="@+id/text_view_attack_gamer_vs_gamer"
@@ -65,5 +71,5 @@
         android:layout_marginBottom="10dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:textSize="30sp" />
+        android:textSize="18sp" />
 </RelativeLayout>

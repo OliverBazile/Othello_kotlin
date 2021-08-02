@@ -15,8 +15,8 @@ import com.example.othello.model.PlayGamerToGamer
 import kotlinx.android.synthetic.main.recycler_view_checkerboard_activity_main.view.*
 
 class CheckerAdapter(
-    private val context: Context,
-    var checkerCase: Array<Int>,
+    val context: Context,
+    var checkerCase: Array<Double>,
     var activity: GamerVsGamerActivity,
     var isMyTurn: Boolean,
     var endGame: Boolean
@@ -28,40 +28,36 @@ class CheckerAdapter(
 
     @SuppressLint("NonConstantResourceId")
     class CheckerHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bindView(value: Int,arrays: Array<Int>, position: Int) {
+        fun bindView(value: Double,arrays: Array<Double>, position: Int) {
             when (value) {
-                 0 -> {
+                 0.0 -> {
                     itemView.image_view_case_checker.setBackgroundResource(R.color.new_red)
                 }
-                2 -> {
+                2.0 -> {
                     itemView.image_view_case_checker.setImageResource(R.drawable.ic_black_circle)
                     itemView.image_view_case_checker.setBackgroundResource(R.color.new_red)
                     itemView.image_view_case_checker.isEnabled = false
                 }
-                1 -> {
+                1.0 -> {
                     itemView.image_view_case_checker.setImageResource(R.drawable.ic_white_circle)
                     itemView.image_view_case_checker.setBackgroundResource(R.color.new_red)
                     itemView.image_view_case_checker.isEnabled = false
                 }
-                8 -> {
+                2.1 -> {
                     itemView.image_view_case_checker.animation = AnimationUtils.loadAnimation(itemView.context,
                         R.anim.rotate)
-                    arrays[position] = 2
+                    arrays[position] = 2.0
                     itemView.image_view_case_checker.setImageResource(R.drawable.ic_black_circle)
                     itemView.image_view_case_checker.isEnabled = false
                 }
-                7 -> {
+                1.1 -> {
                     itemView.image_view_case_checker.animation = AnimationUtils.loadAnimation(itemView.context,
                         R.anim.rotate)
-                    arrays[position] = 1
+                    arrays[position] = 1.0
                     itemView.image_view_case_checker.setImageResource(R.drawable.ic_white_circle)
                     itemView.image_view_case_checker.isEnabled = false
                 }
 
-                3 -> {
-                    itemView.image_view_case_checker.setBackgroundResource(R.color.green_checker)
-                    itemView.image_view_case_checker.isEnabled = false
-                }
             }
         }
 
@@ -74,26 +70,25 @@ class CheckerAdapter(
         )
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: CheckerHolder, position: Int) {
         val piece = checkerCase[position]
         ruler = PlayGamerToGamer()
 
         holder.itemView.setOnClickListener {
-            if (isMyTurn && !endGame && (this.checkerCase[position] == 0 || this.checkerCase[position] == 3)
-                && ruler!!.isPlayCase(this.checkerCase, position, 1, 2,7)) {
-                holder.bindView(1,this.checkerCase,position)
-                this.checkerCase[position] = 1
+            if (isMyTurn && !endGame && this.checkerCase[position].toInt() == 0
+                && ruler!!.isPlayCase(this.checkerCase, position, 1, 2,1.1)) {
+                holder.bindView(1.0,this.checkerCase,position)
+                this.checkerCase[position] = 1.0
                 this.notifyDataSetChanged()
                 activity.playScore(isMyTurn)
 
-            } else if (!isMyTurn && !endGame && (this.checkerCase[position] == 0 || this.checkerCase[position] == 3)
-                && ruler!!.isPlayCase(this.checkerCase, position, 2, 1,8)) {
-
-                holder.bindView(2,this.checkerCase,position)
-                this.checkerCase[position] = 2
+            } else if (!isMyTurn && !endGame && this.checkerCase[position].toInt() == 0
+                && ruler!!.isPlayCase(this.checkerCase, position, 2, 1,2.1)) {
+                holder.bindView(2.0, this.checkerCase, position)
+                this.checkerCase[position] = 2.0
                 this.notifyDataSetChanged()
                 activity.playScore(isMyTurn)
-
             }
         }
 

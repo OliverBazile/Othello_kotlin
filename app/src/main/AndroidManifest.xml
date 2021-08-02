@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Othello">
-        <activity android:name=".activity.ChoosePieceActivity" />
-        <activity android:name=".activity.GamerVsGamerActivity" />
+        <activity android:name=".activity.GamerVsGamerActivity"
+            />
         <activity android:name=".activity.MenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -29,16 +29,4 @@
         style="@style/text_view_black"
         android:textSize="28sp"/>
 
-    <com.example.othello.widget.FascinateText
-        android:id="@+id/text_view_gamer_vs_ia_menu"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Joueur vs Ia"
-        android:layout_above="@+id/text_view_gamer_vs_gamer_menu"
-        android:layout_marginBottom="14dp"
-        style="@style/text_view_black"
-        android:background="@color/pale_yellow_new"
-        android:textSize="28sp"/>
-
 </RelativeLayout>
