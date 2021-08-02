@@ -2,7 +2,6 @@ package com.example.othello.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +21,6 @@ class CheckerAdapter(
     var endGame: Boolean
 ) : RecyclerView.Adapter<CheckerAdapter.CheckerHolder>() {
 
-    private var checkPlayer: Boolean = true
     private var ruler: PlayGamerToGamer? = null
 
 

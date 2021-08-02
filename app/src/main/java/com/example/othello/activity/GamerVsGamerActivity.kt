@@ -2,7 +2,7 @@ package com.example.othello.activity
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
+
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -78,6 +78,7 @@ class GamerVsGamerActivity : AppCompatActivity() {
         recycler_view_checker_board_gamer_vs_gamer.adapter = checkerAdapter
     }
 
+    @SuppressLint("SetTextI18n")
     private fun winner(pieceScore: PieceScore){
         when {
             pieceScore.scoreBlack == pieceScore.scoreWhite -> {
