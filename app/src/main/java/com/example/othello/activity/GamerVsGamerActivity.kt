@@ -81,16 +81,16 @@ class GamerVsGamerActivity : AppCompatActivity() {
     private fun winner(pieceScore: PieceScore){
         when {
             pieceScore.scoreBlack == pieceScore.scoreWhite -> {
-                text_view_score_white_gamer_vs_gamer.text= "Is the Draw"
-                text_view_score_black_gamer_vs_gamer.text= "Is the Draw"
+                text_view_score_white_gamer_vs_gamer.text= "Is the Draw \n ${ pieceScore.scoreBlack}"
+                text_view_score_black_gamer_vs_gamer.text= "Is the Draw \n ${pieceScore.scoreWhite}"
             }
             pieceScore.scoreBlack > pieceScore.scoreWhite -> {
-                text_view_score_white_gamer_vs_gamer.text= "White Lose !!!"
-                text_view_score_black_gamer_vs_gamer.text= "Black Win !!!"
+                text_view_score_white_gamer_vs_gamer.text= "White Lose !!! \n ${pieceScore.scoreWhite}"
+                text_view_score_black_gamer_vs_gamer.text= "Black Win !!! \n ${ pieceScore.scoreBlack}"
             }
             else -> {
-                text_view_score_white_gamer_vs_gamer.text= "White Win !!!"
-                text_view_score_black_gamer_vs_gamer.text= "Black Lose !!!"
+                text_view_score_white_gamer_vs_gamer.text= "White Win !!! \n ${pieceScore.scoreWhite}"
+                text_view_score_black_gamer_vs_gamer.text= "Black Lose !!! \n ${ pieceScore.scoreBlack}"
             }
         }
     }
