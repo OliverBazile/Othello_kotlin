@@ -1,7 +1,6 @@
 package com.example.othello.model
 
 import android.annotation.SuppressLint
-import android.util.Log
 
 
 class PlayGamerToGamer() {
